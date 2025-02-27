@@ -1,12 +1,18 @@
 import { useState } from "react";
 
+import MainContainer from "./components/organisms/Main/mainContainer";
+import Footer from "./components/organisms/Footer/footer";
+import Header from "./components/organisms/Header/header";
+
 export default function TodoList() {
   const [listInput, setListInput] = useState(""); //setListInput는 listInput값을 바꾸는 함수. listInput의 초기값을 ""(빈 문자열)로 설정.
   const [todos, setTodos] = useState([]); //todos라는 변수를 선언과동시에, []로 빈 배열로 초기화. setTodos는 todos 값을 바꾸는 함수
   const [index, setIndex] = useState(0); //주소값안 index를 0으로 초기화.
 
   const handleAdd = () => {
+    console.log("클릭");
     if (!listInput.trim()) {
+      // 입력값이 비어있을 경우 알림을 띄우고 추가하지 않음
       alert("할 일을 입력해주세요!");
       return;
     }
@@ -61,7 +67,12 @@ export default function TodoList() {
         color: "white",
       }}
     >
-      <header
+      <Header
+        listInput={listInput}
+        setListInput={setListInput}
+        handleAdd={handleAdd}
+      >
+        {/*<header
         className="text-center p-5 rounded-xl shadow-lg"
         style={{
           backdropFilter: "blur(10px)",
@@ -69,7 +80,8 @@ export default function TodoList() {
           borderRadius: "20px",
           boxShadow: "0 0 20px rgba(255, 255, 255, 0.2)",
         }}
-      >
+      >*/}
+        {/*
         <h1
           className="text-3xl font-bold"
           style={{
@@ -79,7 +91,13 @@ export default function TodoList() {
         >
           ⚛️ToDo List App⚛️
         </h1>
-        <input
+        <InputComponent
+          value={listInput}
+          onChange={(e) => setListInput(e.target.value)}
+        />
+        <ButtonComponent onClick={handleAdd}>추가</ButtonComponent>
+        */}
+        {/* <input
           type="text"
           value={listInput}
           onChange={(e) => setListInput(e.target.value)}
@@ -92,8 +110,9 @@ export default function TodoList() {
             border: "none",
             width: "50%",
           }}
-        />
-        <button
+        /> */}
+
+        {/*<button
           onClick={handleAdd}
           id="AddButton"
           className="text-white font-bold py-2 px-4 rounded"
@@ -105,18 +124,11 @@ export default function TodoList() {
           }}
         >
           Add
-        </button>
-      </header>
+        </button>*/}
+        {/*</header>*/}
+      </Header>
 
-      <main
-        className="p-5 shadow-lg rounded-xl mt-5"
-        style={{
-          backdropFilter: "blur(10px)",
-          background: "linear-gradient(45deg, #ed8c1e, #d7a122, #e0ab18)",
-          borderRadius: "20px",
-          boxShadow: "0 0 20px rgba(255, 255, 255, 0.2)",
-        }}
-      >
+      <MainContainer>
         <h2>🛡️ ToDo List:</h2>
         <input type="checkbox" onChange={handleSelectAll} />
         <label className="ml-2">Select All</label>
@@ -133,30 +145,14 @@ export default function TodoList() {
             </li>
           ))}
         </ul>
-      </main>
+      </MainContainer>
 
-      <footer
-        className="p-5 shadow-lg rounded-xl mt-5 text-right"
-        style={{
-          backdropFilter: "blur(10px)",
-          background: "linear-gradient(45deg, #ed8c1e, #d7a122, #e0ab18)",
-          borderRadius: "20px",
-          boxShadow: "0 0 20px rgba(255, 255, 255, 0.2)",
-        }}
-      >
-        <h2>🛡️ Completed Tasks: {todos.length}개</h2>
-        <div>
-          <button onClick={handleModify} id="ModifyButton">
-            Modify Selected
-          </button>
-          <button onClick={handleDelete} id="DeleteButton">
-            Delete Selected
-          </button>
-          <button onClick={handleClear} id="ClearButton">
-            Clear All
-          </button>
-        </div>
-      </footer>
+      <Footer
+        todos={todos}
+        handleModify={handleModify}
+        handleClear={handleClear}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
